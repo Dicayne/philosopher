@@ -6,7 +6,7 @@
 #    By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/03 15:46:16 by vmoreau           #+#    #+#              #
-#    Updated: 2021/05/06 13:29:57 by vmoreau          ###   ########.fr        #
+#    Updated: 2021/06/03 15:34:15 by vmoreau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,13 @@ WHITE = \033[0;37m
 
 ################################COMMON  SOURCES################################
 
-SRCS += ./srcs/main.c
+SRCS += ./srcs/main.c		./srcs/check_args.c		./srcs/exit_err.c		\
+		./srcs/utils.c		./srcs/time.c			./srcs/init.c			\
 
 ####################################BASIC######################################
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
+# CFLAGS += -g3 -fsanitize=address
 
 CC = clang
 
