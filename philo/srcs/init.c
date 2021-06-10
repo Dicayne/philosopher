@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 17:49:25 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/04 16:30:06 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/07 15:55:06 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void		init_philo(t_data *data, t_philo *philo)
 		philo[i].arg.time_start = data->arg.time_start;
 		philo[i].ntpe = 0;
 		philo[i].time_without_eat = get_time(true, philo->time_without_eat);
+		philo[i].data = data;
 		i++;
 	}
 }
@@ -38,6 +39,7 @@ bool		init(t_data *data, char **av, int ac)
 	data->arg.time_die = ft_atoi(av[1]);
 	data->arg.time_eat = ft_atoi(av[2]);
 	data->arg.time_sleep = ft_atoi(av[3]);
+	data->is_philo_dead = false;
 	if (ac == 6)
 		data->arg.ntpe_tot = ft_atoi(av[4]);
 	else

@@ -6,11 +6,11 @@
 #    By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/03 15:46:16 by vmoreau           #+#    #+#              #
-#    Updated: 2021/05/06 13:21:00 by vmoreau          ###   ########.fr        #
+#    Updated: 2021/06/07 13:01:59 by vmoreau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo_two
+NAME = philo_one
 
 ####################################COLOR######################################
 #----------------reset----------------#
@@ -31,17 +31,19 @@ WHITE = \033[0;37m
 
 ################################COMMON  SOURCES################################
 
-SRCS += ./srcs/main.c
+SRCS += ./srcs/main.c		./srcs/check_args.c		./srcs/exit_err.c		\
+		./srcs/utils.c		./srcs/time.c			./srcs/init.c			\
 
 ####################################BASIC######################################
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
+# CFLAGS += -g3 -fsanitize=address
 
 CC = clang
 
 INC = Header/
 
-HEADER = $(INC)philo_two.h
+HEADER = $(INC)philo_one.h
 
 OBJ = $(SRCS:.c=.o)
 
@@ -68,7 +70,7 @@ re : fclean all
 ####################################ECHO######################################
 
 echoCPO:
-	echo "$(YELLOW)===> Compiling Philo_Two$(NC)"
+	echo "$(YELLOW)===> Compiling Philo_One$(NC)"
 echoOK:
 	echo "$(GREEN)OK$(NC)"
 echoCS :

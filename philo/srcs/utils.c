@@ -6,11 +6,21 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:57:03 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/03 12:09:36 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/07 16:08:33 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
+
+void	find_id_fork(t_philo *philo, int *id_left)
+{
+	if (philo->id == 1)
+		*id_left = philo->data->philos[philo->data->nb_philo - 1].id;
+	else if (philo->id == philo->data->nb_philo)
+		*id_left = philo->id - 1;
+	else
+		*id_left = philo->id - 1;
+}
 
 int		ft_atoi(const char *str)
 {
