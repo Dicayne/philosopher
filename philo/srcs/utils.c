@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:57:03 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/11 12:20:29 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/11 16:14:48 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,18 @@ void	display_status(t_philo *philo, char *status)
 	pthread_mutex_lock(&philo->data->display);
 	time = get_time(false, philo->arg.time_start);
 	if (!ft_strcmp(status, "EAT"))
-		printf("%d\t %d: is eating\n", time, philo->id);
+		printf("%d\t %d:\033[32m is eating\n", time, philo->id);
 	else if (!ft_strcmp(status, "SLEEP"))
-		printf("%d\t %d: is sleeping\n", time, philo->id);
+		printf("%d\t %d:\033[33m is sleeping\n", time, philo->id);
 	else if (!ft_strcmp(status, "THINK"))
-		printf("%d\t %d: is thinking\n", time, philo->id);
+		printf("%d\t %d:\033[34m is thinking\n", time, philo->id);
 	else if (!ft_strcmp(status, "DIE"))
-		printf("%d\t %d: died\n", time, philo->id);
+		printf("%d\t %d:\033[0;31m died\n", time, philo->id);
 	else if (!ft_strcmp(status, "FORK"))
 		printf("%d\t %d: has taken a fork\n", time, philo->id);
-	pthread_mutex_unlock(&philo->data->display);
+	if (ft_strcmp(status, "DIE"))
+		pthread_mutex_unlock(&philo->data->display);
+	printf("\033[0m");
 }
 
 int		ft_strcmp(const char *s1, const char *s2)

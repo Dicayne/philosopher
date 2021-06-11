@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:51:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/03 19:04:05 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/11 16:03:05 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	exit_err(int status, t_data *data)
 	if (status == 3)
 		printf("Can't Allocate Memory\n");
 	if (status == 4)
-		printf("Need 2 Philosophers Minimum\n");
-	if (status == 5)
 	{
 		free(data->philos);
 		printf("Can't Create Thread\n");
