@@ -6,20 +6,47 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:57:03 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/07 16:08:33 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/11 12:20:29 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-void	find_id_fork(t_philo *philo, int *id_left)
+void	display_status(t_philo *philo, char *status)
 {
-	if (philo->id == 1)
-		*id_left = philo->data->philos[philo->data->nb_philo - 1].id;
-	else if (philo->id == philo->data->nb_philo)
-		*id_left = philo->id - 1;
-	else
-		*id_left = philo->id - 1;
+	unsigned int time;
+
+	pthread_mutex_lock(&philo->data->display);
+	time = get_time(false, philo->arg.time_start);
+	if (!ft_strcmp(status, "EAT"))
+		printf("%d\t %d: is eating\n", time, philo->id);
+	else if (!ft_strcmp(status, "SLEEP"))
+		printf("%d\t %d: is sleeping\n", time, philo->id);
+	else if (!ft_strcmp(status, "THINK"))
+		printf("%d\t %d: is thinking\n", time, philo->id);
+	else if (!ft_strcmp(status, "DIE"))
+		printf("%d\t %d: died\n", time, philo->id);
+	else if (!ft_strcmp(status, "FORK"))
+		printf("%d\t %d: has taken a fork\n", time, philo->id);
+	pthread_mutex_unlock(&philo->data->display);
+}
+
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	size_t i;
+
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	if (s1[i] == '\0' && s2[i] != '\0')
+		return (-1);
+	if (s1[0] == '\0')
+		return ((unsigned char)s1[0] - (unsigned char)s2[0]);
+	return (0);
 }
 
 int		ft_atoi(const char *str)

@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:44:35 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/07 16:08:04 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/11 13:28:04 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <pthread.h>
+
 // STRUCTURE
 typedef struct	s_arg
 {
@@ -47,6 +48,7 @@ typedef struct	s_data
 	bool			is_philo_dead;
 	t_arg			arg;
 	t_philo			*philos;
+	pthread_mutex_t	display;
 }				t_data;
 
 // PHILO
@@ -59,14 +61,23 @@ bool			init_thread(t_data *data);
 // TIME
 unsigned int 	get_time(bool start, unsigned int time_start);
 
+// ACTION
+void			find_id_fork(t_philo *philo, int *id_left);
+void			t_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r, t_philo *philo);
+void			r_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r);
+void			action_eat(t_philo *philo, unsigned int *reset);
+void			action_sleep(t_philo *philo);
+
 // UTILS
+void			display_status(t_philo *philo, char *status);
+int				ft_strcmp(const char *s1, const char *s2);
 bool			isnum(char *str);
 int				ft_atoi(const char *str);
-void			find_id_fork(t_philo *philo, int *id_left);
 
 // EXIT_ERR
 void			exit_err(int status, t_data *data);
 
 // CHECK_ARGS
 bool			check_args(char **av);
+
 #endif

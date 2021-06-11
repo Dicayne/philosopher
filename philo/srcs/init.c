@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 17:49:25 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/07 15:55:06 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/11 10:34:52 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ bool	init_thread(t_data *data)
 
 	i = 0;
 	ret = true;
+	if (pthread_mutex_init(&data->display, NULL))
+		return (false);
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->philos[i].fork, NULL))

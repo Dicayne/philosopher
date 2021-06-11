@@ -6,7 +6,7 @@
 #    By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/03 15:46:16 by vmoreau           #+#    #+#              #
-#    Updated: 2021/06/07 13:01:59 by vmoreau          ###   ########.fr        #
+#    Updated: 2021/06/10 15:39:13 by vmoreau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ WHITE = \033[0;37m
 
 SRCS += ./srcs/main.c		./srcs/check_args.c		./srcs/exit_err.c		\
 		./srcs/utils.c		./srcs/time.c			./srcs/init.c			\
+		./srcs/action.c
 
 ####################################BASIC######################################
 
