@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:38:08 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/11 17:44:16 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/15 17:14:39 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,44 @@ bool		have_eaten_enough(int ntpe_tot, int ntpe)
 		return (false);
 }
 
-void*		start_philo(void* thread)
+void*		test(void *test)
 {
 	t_philo *philo;
-	unsigned int reset;
+	philo = (t_philo *)test;
 
-	philo = (t_philo *)thread;
-	reset = philo->arg.time_start;
 	while (!philo->data->is_philo_dead &&
 			have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
 	{
-		philo->time_without_eat = get_time(false, reset);
+		philo->time_without_eat = get_time(false, philo->reset);
 		if ((int)philo->time_without_eat >= philo->arg.time_die)
 		{
+			// printf("%d ptwe = %d\n", philo->id, philo->time_without_eat);
 			display_status(philo, "DIE");
-			philo->data->is_philo_dead = true;
+			pthread_mutex_unlock(&philo->fork);
 			break;
 		}
-		action_eat(philo, &reset);
+		usleep(500);
+	}
+	return (NULL);
+}
+
+void*		start_philo(void* thread)
+{
+	t_philo		*philo;
+	pthread_t	cd;
+
+	philo = (t_philo *)thread;
+	philo->reset = get_time(true, philo->reset);
+	pthread_create(&cd, NULL, &test, philo);
+	while (!philo->data->is_philo_dead &&
+			have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
+	{
+		action_eat(philo);
 		action_sleep(philo);
 		display_status(philo, "THINK");
 	}
-	// printf("philo[%d] have eaten %d time\n", philo->id, philo->ntpe);
+	if (philo->arg.ntpe_tot != -1)
+		printf("philo[%d] have eaten %d time\n", philo->id, philo->ntpe);
 	return (NULL);
 }
 

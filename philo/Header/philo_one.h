@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:44:35 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/11 13:28:04 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/15 16:01:53 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct	s_philo
 	t_arg			arg;
 	int				ntpe;				//NUMBER TIME PHILO EAT
 	unsigned int	time_without_eat;
+	unsigned int	reset;
 	pthread_t 		threads;
 	pthread_mutex_t	fork;
 	struct s_data	*data;
@@ -65,7 +66,7 @@ unsigned int 	get_time(bool start, unsigned int time_start);
 void			find_id_fork(t_philo *philo, int *id_left);
 void			t_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r, t_philo *philo);
 void			r_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r);
-void			action_eat(t_philo *philo, unsigned int *reset);
+void			action_eat(t_philo *philo);
 void			action_sleep(t_philo *philo);
 
 // UTILS
@@ -73,6 +74,7 @@ void			display_status(t_philo *philo, char *status);
 int				ft_strcmp(const char *s1, const char *s2);
 bool			isnum(char *str);
 int				ft_atoi(const char *str);
+void			ft_wait(int delay, bool is_dead);
 
 // EXIT_ERR
 void			exit_err(int status, t_data *data);

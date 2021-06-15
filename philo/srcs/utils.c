@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:57:03 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/11 16:14:48 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/15 14:19:36 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,23 @@ void	display_status(t_philo *philo, char *status)
 	unsigned int time;
 
 	pthread_mutex_lock(&philo->data->display);
-	time = get_time(false, philo->arg.time_start);
-	if (!ft_strcmp(status, "EAT"))
-		printf("%d\t %d:\033[32m is eating\n", time, philo->id);
-	else if (!ft_strcmp(status, "SLEEP"))
-		printf("%d\t %d:\033[33m is sleeping\n", time, philo->id);
-	else if (!ft_strcmp(status, "THINK"))
-		printf("%d\t %d:\033[34m is thinking\n", time, philo->id);
-	else if (!ft_strcmp(status, "DIE"))
-		printf("%d\t %d:\033[0;31m died\n", time, philo->id);
-	else if (!ft_strcmp(status, "FORK"))
-		printf("%d\t %d: has taken a fork\n", time, philo->id);
-	if (ft_strcmp(status, "DIE"))
-		pthread_mutex_unlock(&philo->data->display);
-	printf("\033[0m");
+	if (!philo->data->is_philo_dead)
+	{
+		time = get_time(false, philo->arg.time_start);
+		if (!ft_strcmp(status, "EAT"))
+			printf("%d\t %d:\033[32m is eating\033[0m\n", time, philo->id);
+		else if (!ft_strcmp(status, "SLEEP"))
+			printf("%d\t %d:\033[33m is sleeping\033[0m\n", time, philo->id);
+		else if (!ft_strcmp(status, "THINK"))
+			printf("%d\t %d:\033[34m is thinking\033[0m\n", time, philo->id);
+		else if (!ft_strcmp(status, "DIE"))
+			printf("%d\t %d:\033[0;31m died\033[0m\n", time, philo->id);
+		else if (!ft_strcmp(status, "FORK"))
+			printf("%d\t %d: has taken a fork\033[0m\n", time, philo->id);
+	}
+	if (!ft_strcmp(status, "DIE"))
+		philo->data->is_philo_dead = true;
+	pthread_mutex_unlock(&philo->data->display);
 }
 
 int		ft_strcmp(const char *s1, const char *s2)
@@ -93,4 +96,18 @@ bool	isnum(char* str)
 		i++;
 	}
 	return (ret);
+}
+
+void	ft_wait(int delay, bool is_dead)
+{
+	unsigned int start;
+
+	start = 0;
+	start = get_time(true, start);
+	if (is_dead)
+		return;
+	while (get_time(false, start) < (unsigned int)delay)
+	{
+		usleep(500);
+	}
 }
