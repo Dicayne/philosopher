@@ -6,15 +6,15 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 17:49:25 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/15 17:53:01 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/16 15:36:23 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo.h"
 
-void		init_philo(t_data *data, t_philo *philo)
+void	init_philo(t_data *data, t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->nb_philo)
@@ -32,7 +32,7 @@ void		init_philo(t_data *data, t_philo *philo)
 	}
 }
 
-bool		init(t_data *data, char **av, int ac)
+bool	init(t_data *data, char **av, int ac)
 {
 	data->arg.time_start = get_time(true, data->arg.time_start);
 	data->nb_philo = ft_atoi(av[0]);
@@ -44,86 +44,9 @@ bool		init(t_data *data, char **av, int ac)
 		data->arg.ntpe_tot = ft_atoi(av[4]);
 	else
 		data->arg.ntpe_tot = -1;
- 	data->philos = (t_philo *)malloc(sizeof(t_philo) * data->nb_philo);
+	data->philos = (t_philo *)malloc(sizeof(t_philo) * data->nb_philo);
 	if (!data->philos)
 		return (false);
 	init_philo(data, data->philos);
 	return (true);
-}
-
-bool		join_threads(int num, t_philo *threads)
-{
-	int i;
-
-	i = 0;
-	while (i < num)
-	{
-		if (pthread_join(threads[i].threads, NULL))
-			return (false);
-		i++;
-	}
-	free(threads);
-	return (true);
-}
-
-bool	init_mutex(t_data *data)
-{
-	int		i;
-	bool	ret;
-
-	i = 0;
-	ret = true;
-	if (pthread_mutex_init(&data->display, NULL))
-		return (false);
-	while (i < data->nb_philo)
-	{
-		if (pthread_mutex_init(&data->philos[i].fork, NULL))
-		{
-			ret = false;
-			break;
-		}
-		i++;
-	}
-	return (ret);
-}
-
-bool	create_thread(t_data *data, char oddenven)
-{
-	int		i;
-	bool	ret;
-
-	ret = true;
-	if (oddenven == 'o')
-		i = 0;
-	else
-		i = 1;
-	while (i < data->nb_philo)
-	{
-		if (pthread_create(&data->philos[i].threads, NULL, &start_philo, &(data->philos[i])))
-		{
-			ret = false;
-			break;
-		}
-		usleep(500);
-		i = i + 2;
-	}
-	return (ret);
-}
-
-bool	init_thread(t_data *data)
-{
-	bool	ret;
-	int		i;
-
-	i = 0;
-	ret = true;
-	if (!init_mutex(data))
-		return (false);
-	if (!create_thread(data, 'o'))
-		return (false);
-	if (!create_thread(data, 'e'))
-		return (false);
-	if (ret)
-		ret = join_threads(data->nb_philo, data->philos);
-	return (ret);
 }

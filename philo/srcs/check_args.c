@@ -6,11 +6,11 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:56:45 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/03 11:55:48 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/16 15:30:42 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo.h"
 
 bool	check_args(char **av)
 {
@@ -24,7 +24,7 @@ bool	check_args(char **av)
 		if (!isnum(av[i]))
 		{
 			ret = false;
-			break;
+			break ;
 		}
 		i++;
 	}

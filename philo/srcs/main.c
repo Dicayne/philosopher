@@ -6,13 +6,13 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:38:08 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/15 17:14:39 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/16 15:40:07 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo.h"
 
-bool		have_eaten_enough(int ntpe_tot, int ntpe)
+bool	have_eaten_enough(int ntpe_tot, int ntpe)
 {
 	if (ntpe_tot == -1)
 		return (true);
@@ -22,36 +22,35 @@ bool		have_eaten_enough(int ntpe_tot, int ntpe)
 		return (false);
 }
 
-void*		test(void *test)
+void	*check_death(void *test)
 {
-	t_philo *philo;
-	philo = (t_philo *)test;
+	t_philo	*philo;
 
-	while (!philo->data->is_philo_dead &&
+	philo = (t_philo *)test;
+	while (!philo->data->is_philo_dead && \
 			have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
 	{
 		philo->time_without_eat = get_time(false, philo->reset);
 		if ((int)philo->time_without_eat >= philo->arg.time_die)
 		{
-			// printf("%d ptwe = %d\n", philo->id, philo->time_without_eat);
 			display_status(philo, "DIE");
 			pthread_mutex_unlock(&philo->fork);
-			break;
+			break ;
 		}
 		usleep(500);
 	}
 	return (NULL);
 }
 
-void*		start_philo(void* thread)
+void	*start_philo(void *thread)
 {
 	t_philo		*philo;
 	pthread_t	cd;
 
 	philo = (t_philo *)thread;
 	philo->reset = get_time(true, philo->reset);
-	pthread_create(&cd, NULL, &test, philo);
-	while (!philo->data->is_philo_dead &&
+	pthread_create(&cd, NULL, &check_death, philo);
+	while (!philo->data->is_philo_dead && \
 			have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
 	{
 		action_eat(philo);
@@ -59,21 +58,24 @@ void*		start_philo(void* thread)
 		display_status(philo, "THINK");
 	}
 	if (philo->arg.ntpe_tot != -1)
-		printf("philo[%d] have eaten %d time\n", philo->id, philo->ntpe);
+		printf("%sPhilo[%d] have eaten %d time%s\n"\
+				, PURPLE, philo->id, philo->ntpe, NC);
 	return (NULL);
 }
 
-int		main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_data data;
+	t_data	data;
+	int		ret;
 
+	ret = 0;
 	if (ac < 5 || ac > 6)
-		exit_err(1, &data);
-	if (!check_args(++av))
-		exit_err(2, &data);
-	if (!init(&data, av, ac))
-		exit_err(3, &data);
-	if (!init_thread(&data))
-		exit_err(4, &data);
-	return (0);
+		ret = exit_err(1, &data);
+	else if (!check_args(++av))
+		ret = exit_err(2, &data);
+	else if (!init(&data, av, ac))
+		ret = exit_err(3, &data);
+	else if (!init_thread(&data))
+		ret = exit_err(4, &data);
+	return (ret);
 }

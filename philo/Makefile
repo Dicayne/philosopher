@@ -6,11 +6,11 @@
 #    By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/03 15:46:16 by vmoreau           #+#    #+#              #
-#    Updated: 2021/06/15 12:13:46 by vmoreau          ###   ########.fr        #
+#    Updated: 2021/06/16 15:36:46 by vmoreau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo_one
+NAME = philo
 
 ####################################COLOR######################################
 #----------------reset----------------#
@@ -33,7 +33,7 @@ WHITE = \033[0;37m
 
 SRCS += ./srcs/main.c		./srcs/check_args.c		./srcs/exit_err.c		\
 		./srcs/utils.c		./srcs/time.c			./srcs/init.c			\
-		./srcs/action.c
+		./srcs/action.c		./srcs/init_thread.c
 
 ####################################BASIC######################################
 
@@ -44,7 +44,7 @@ CC = clang
 
 INC = Header/
 
-HEADER = $(INC)philo_one.h
+HEADER = $(INC)philo.h
 
 OBJ = $(SRCS:.c=.o)
 

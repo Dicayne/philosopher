@@ -6,39 +6,39 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:57:03 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/15 14:19:36 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/16 15:41:29 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo.h"
 
 void	display_status(t_philo *philo, char *status)
 {
-	unsigned int time;
+	unsigned int	time;
 
 	pthread_mutex_lock(&philo->data->display);
 	if (!philo->data->is_philo_dead)
 	{
 		time = get_time(false, philo->arg.time_start);
 		if (!ft_strcmp(status, "EAT"))
-			printf("%d\t %d:\033[32m is eating\033[0m\n", time, philo->id);
+			printf("%d\t %d:%s is eating%s\n", time, philo->id, GREEN, NC);
 		else if (!ft_strcmp(status, "SLEEP"))
-			printf("%d\t %d:\033[33m is sleeping\033[0m\n", time, philo->id);
+			printf("%d\t %d:%s is sleeping%s\n", time, philo->id, YELLOW, NC);
 		else if (!ft_strcmp(status, "THINK"))
-			printf("%d\t %d:\033[34m is thinking\033[0m\n", time, philo->id);
+			printf("%d\t %d:%s is thinking%s\n", time, philo->id, CYAN, NC);
 		else if (!ft_strcmp(status, "DIE"))
-			printf("%d\t %d:\033[0;31m died\033[0m\n", time, philo->id);
+			printf("%d\t %d:%s died%s\n", time, philo->id, RED, NC);
 		else if (!ft_strcmp(status, "FORK"))
-			printf("%d\t %d: has taken a fork\033[0m\n", time, philo->id);
+			printf("%d\t %d: has taken a fork\n", time, philo->id);
 	}
 	if (!ft_strcmp(status, "DIE"))
 		philo->data->is_philo_dead = true;
 	pthread_mutex_unlock(&philo->data->display);
 }
 
-int		ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s1[i] != '\0')
@@ -54,11 +54,11 @@ int		ft_strcmp(const char *s1, const char *s2)
 	return (0);
 }
 
-int		ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int i;
-	int less;
-	int nb_ret;
+	int	i;
+	int	less;
+	int	nb_ret;
 
 	i = 0;
 	less = 1;
@@ -79,10 +79,10 @@ int		ft_atoi(const char *str)
 	return (nb_ret * less);
 }
 
-bool	isnum(char* str)
+bool	isnum(char *str)
 {
-	int i;
-	bool ret;
+	int		i;
+	bool	ret;
 
 	i = 0;
 	ret = true;
@@ -91,7 +91,7 @@ bool	isnum(char* str)
 		if (str[i] < '0' || str[i] > '9')
 		{
 			ret = false;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -100,12 +100,12 @@ bool	isnum(char* str)
 
 void	ft_wait(int delay, bool is_dead)
 {
-	unsigned int start;
+	unsigned int	start;
 
 	start = 0;
 	start = get_time(true, start);
 	if (is_dead)
-		return;
+		return ;
 	while (get_time(false, start) < (unsigned int)delay)
 	{
 		usleep(500);

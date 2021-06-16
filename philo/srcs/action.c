@@ -6,11 +6,11 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 15:38:44 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/15 17:54:51 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/16 15:31:52 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo.h"
 
 void	find_id_fork(t_philo *philo, int *id_left)
 {
@@ -20,7 +20,7 @@ void	find_id_fork(t_philo *philo, int *id_left)
 		*id_left = philo->id - 1;
 }
 
-void		t_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r, t_philo *philo)
+void	t_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r, t_philo *philo)
 {
 	pthread_mutex_lock(f_l);
 	display_status(philo, "FORK");
@@ -28,15 +28,15 @@ void		t_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r, t_philo *philo)
 	display_status(philo, "FORK");
 }
 
-void		r_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r)
+void	r_fork(pthread_mutex_t *f_l, pthread_mutex_t *f_r)
 {
 	pthread_mutex_unlock(f_l);
 	pthread_mutex_unlock(f_r);
 }
 
-void		action_eat(t_philo *philo)
+void	action_eat(t_philo *philo)
 {
-	int id_left;
+	int	id_left;
 
 	find_id_fork(philo, &id_left);
 	t_fork(&philo->data->philos[id_left - 1].fork, &philo->fork, philo);
@@ -48,7 +48,7 @@ void		action_eat(t_philo *philo)
 	r_fork(&philo->data->philos[id_left - 1].fork, &philo->fork);
 }
 
-void		action_sleep(t_philo *philo)
+void	action_sleep(t_philo *philo)
 {
 	display_status(philo, "SLEEP");
 	ft_wait(philo->arg.time_sleep, philo->data->is_philo_dead);
