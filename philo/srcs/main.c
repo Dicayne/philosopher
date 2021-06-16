@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:38:08 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/16 15:40:07 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/16 22:07:51 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	*start_philo(void *thread)
 	philo = (t_philo *)thread;
 	philo->reset = get_time(true, philo->reset);
 	pthread_create(&cd, NULL, &check_death, philo);
+	pthread_detach(cd);
 	while (!philo->data->is_philo_dead && \
 			have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
 	{
