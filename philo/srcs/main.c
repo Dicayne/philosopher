@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:38:08 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/16 22:07:51 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/21 15:56:03 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 bool	have_eaten_enough(int ntpe_tot, int ntpe)
 {
 	if (ntpe_tot == -1)
-		return (true);
-	if (ntpe < ntpe_tot)
-		return (true);
-	else
 		return (false);
+	if (ntpe < ntpe_tot)
+		return (false);
+	else
+		return (true);
 }
 
 void	*check_death(void *test)
@@ -28,7 +28,7 @@ void	*check_death(void *test)
 
 	philo = (t_philo *)test;
 	while (!philo->data->is_philo_dead && \
-			have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
+			!have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
 	{
 		philo->time_without_eat = get_time(false, philo->reset);
 		if ((int)philo->time_without_eat >= philo->arg.time_die)
@@ -52,11 +52,14 @@ void	*start_philo(void *thread)
 	pthread_create(&cd, NULL, &check_death, philo);
 	pthread_detach(cd);
 	while (!philo->data->is_philo_dead && \
-			have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
+			!have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
 	{
 		action_eat(philo);
-		action_sleep(philo);
-		display_status(philo, "THINK");
+		if (!have_eaten_enough(philo->arg.ntpe_tot, philo->ntpe))
+		{
+			action_sleep(philo);
+			display_status(philo, "THINK");
+		}
 	}
 	if (philo->arg.ntpe_tot != -1)
 		printf("%sPhilo[%d] have eaten %d time%s\n"\
