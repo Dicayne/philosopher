@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:44:35 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/16 15:34:05 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/23 17:08:39 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_philo
 	unsigned int	reset;
 	pthread_t		threads;
 	pthread_mutex_t	fork;
+	pthread_mutex_t	eat_or_die;
 	struct s_data	*data;
 }				t_philo;
 

@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 14:38:08 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/21 15:56:03 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/23 17:12:07 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	*check_death(void *test)
 		philo->time_without_eat = get_time(false, philo->reset);
 		if ((int)philo->time_without_eat >= philo->arg.time_die)
 		{
+			pthread_mutex_lock(&philo->eat_or_die);
 			display_status(philo, "DIE");
 			pthread_mutex_unlock(&philo->fork);
+			pthread_mutex_unlock(&philo->eat_or_die);
 			break ;
 		}
 		usleep(500);

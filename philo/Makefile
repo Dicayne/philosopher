@@ -6,7 +6,7 @@
 #    By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/03 15:46:16 by vmoreau           #+#    #+#              #
-#    Updated: 2021/06/16 22:05:13 by vmoreau          ###   ########.fr        #
+#    Updated: 2021/06/23 17:07:49 by vmoreau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,6 @@ SRCS += ./srcs/main.c		./srcs/check_args.c		./srcs/exit_err.c		\
 ####################################BASIC######################################
 
 CFLAGS = -Wall -Wextra -Werror -pthread
-# CFLAGS += -g3 -fsanitize=address
 
 CC = clang
 
