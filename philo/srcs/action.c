@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 15:38:44 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/06/23 17:10:34 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/06/28 13:57:24 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	action_eat(t_philo *philo)
 	t_fork(&philo->data->philos[id_left - 1].fork, &philo->fork, philo);
 	pthread_mutex_lock(&philo->eat_or_die);
 	display_status(philo, "EAT");
-	philo->ntpe++;
+	if (philo->data->is_philo_dead == false)
+		philo->ntpe++;
 	philo->reset = get_time(true, philo->reset);
 	philo->time_without_eat = get_time(false, philo->reset);
 	ft_wait(philo->arg.time_eat, philo->data->is_philo_dead);
